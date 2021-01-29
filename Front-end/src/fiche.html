@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche Patient</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/foundation/6.2.0/foundation.min.css">
+    <link rel="stylesheet" href="css/fiche.css">
+</head>
+
+<body>
+<div id='card'>
+  
+  </div>
+
+  <div id='card2'>
+  
+</div>
+
+  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <script>
+
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const DossierId = urlParams.get('idDossier');
+      console.log(DossierId);
+
+      
+axios.get(`http://localhost:5000/api/Dossiers/${DossierId}`)
+.then(function (response) {
+    var info = document.getElementById("card");
+    var card =`
+    <img alt='user-image' id='userImage' src='https://bootdey.com/img/Content/avatar/avatar7.png'>
+    <h4 id='playerName'>${response.data.prenom} ${response.data.name}</h4>
+    <div id='states'>
+      <ul id='info'>
+        <li>
+          CIN
+        </li>
+        <li>
+          Email
+        </li>
+        <li>
+          Phone
+        </li>
+        
+      </ul>
+      <ul id='values'>
+        <li>${response.data.cin}</li>
+        <li>${response.data.email}</li>
+        <li>${response.data.phone}</li>
+      </ul>
+    </div>
+    `
+    info.innerHTML=card;
+})
+.catch(function (err) {
+    console.log(err);
+});
+
+
+
+axios.get(`http://localhost:5000/api2/fichePatient/${DossierId}`)
+.then(function (response) {
+    var info = document.getElementById("card2");
+    var card2 =`
+    <h4 id='playerName'>Fiche Patient</h4>
+    <div id='states'>
+      <ul id='info'>
+        <li>
+            id
+        </li>
+        <li>
+          Date
+        </li>
+        <li>
+            resultatTest
+        </li>
+        <li>
+           Id Dossier
+        </li>
+        
+      </ul>
+      <ul id='values'>
+        <li>${response.data._id}</li>
+        <li>${response.data.create_date}</li>
+        <li>${response.data.resultatTest}</li>
+        <li>${response.data.DossierId}</li>
+      </ul>
+    </div>
+    `
+    info.innerHTML=card2;
+})
+.catch(function (err) {
+    console.log(err);
+});
+
+
+  </script>
+
+</body>
+
+</html>
